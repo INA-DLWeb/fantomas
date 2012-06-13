@@ -1,10 +1,10 @@
-A scrapper base on PhantomJS.
-A compiled version of PhantomJS (linux 64bit) is included.
+A scrapper based on PhantomJS.
+A compiled version of PhantomJS (linux x86_64) is included.
 
 Usage (for the moment):
  ./lib/bin/phantomjs-impl/phantomjs-linux-64/bin/phantomjs ./lib/js/main.js http://example.com
 
-Result:
+Result (JSON lines):
 {"type":"message","message":"http://www.iana.org/domains/example/"}
 {"type":"link","url":"http://www.iana.org/"}
 {"type":"link","url":"http://www.iana.org/domains/"}
@@ -38,7 +38,7 @@ Result:
 
 Notes:
  * The scrapper tries to  simulate *ALL* JavaScript click events on the page
- * The scrapper send 1000 clicks to random locations on the page just in case
- * The timeouts are tunable, as as well as the whole process, by editing "./lib/js/main.js"
+ * Additionally, the scrapper sends 1000 clicks to random locations on the page
+ * The timeouts are tunable, as well as the whole process, by editing "./lib/js/main.js"
  * The perl scripts included currently don't work.
 
