@@ -1,0 +1,35 @@
+#!/usr/bin/perl
+
+use ina;
+use strict;
+use warnings;
+use Fantomas;
+use List::Pairwise qw(mapp);
+
+my $url = shift;
+my $session_id = shift;
+my $crawl_level = shift;
+my $clicks = shift;
+my $timeout = shift || 0;
+
+my %args = mapp {$a =~ s/^--?//; print "$a=$b\n"; $a => $b} map {split(/\s*=\s*/, $_)} @ARGV;
+my $fantomas = Fantomas->new(%args);
+
+print "FANTOMAS Fetch: ", $url, 
+	" (sessionId:'", ($session_id//'default'), 
+	"', Level:'", ($crawl_level//'default'), 
+	"', Clicks:'", ($clicks//'default'), 
+	"', Timeout:'", $timeout, 
+	"')\n";
+
+my $result = $fantomas->fetch($url, $session_id, $crawl_level, $clicks, $timeout); 
+
+for my $k (keys %{$result}) {
+  if ($k eq 'error') {
+    print "error: ", $result->{$k}, "\n";
+	next;
+  }
+  for my $u (keys %{$result->{$k}}) {
+    print "url: $k=$u\n";
+  }
+}
