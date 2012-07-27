@@ -13,6 +13,7 @@ my $clicks = shift;
 my $timeout = shift || 0;
 
 my %args = mapp {$a =~ s/^--?//; print "$a=$b\n"; $a => $b} map {split(/\s*=\s*/, $_)} @ARGV;
+# $args{'memory-limit'} = 1_000_000;
 my $fantomas = Fantomas->new(%args);
 
 print "FANTOMAS Fetch: ", $url, 

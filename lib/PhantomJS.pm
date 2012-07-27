@@ -28,14 +28,18 @@ sub new {
 		'ignore-ssl-errors' => 'yes',
 		'web-security' => 'no',
 		'max-disk-cache-size' => 0,
+		'memory-limit' => 5_000_000,
 		@_
 	);
 	
+	my $memory_limit = delete($args{'memory-limit'});
 	my $self = bless [], $class;
 	
 	croak "cannot find executable PhantomJS binary at '$PJS_PATH'" unless -x $PJS_PATH;
 	
-	$self->[CMD] = sprintf(q!%s %s '%s' %%s 2>/dev/null!,
+	my $ulimit = $memory_limit == 0 ? "" : "ulimit -v $memory_limit && ";
+	$self->[CMD] = sprintf(q!%s%s %s '%s' %%s 2>/dev/null!,
+		$ulimit,
 		$PJS_PATH,
 		(join ' ', mapp {"--$a=$b"} grepp {defined $b} %args),
 		$js_path,
